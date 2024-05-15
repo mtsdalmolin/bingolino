@@ -5,7 +5,7 @@ import MarkerPng from "../public/assets/marker.png";
 import { version } from "../package.json";
 
 import { Montserrat } from "next/font/google";
-export const montserrat = Montserrat({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"] });
 
 const abilities = [
   "Votar em Shrek 2",
