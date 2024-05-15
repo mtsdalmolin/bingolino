@@ -5,6 +5,13 @@ import MarkerPng from "../public/assets/marker.png";
 import { version } from "../package.json";
 
 import { Montserrat } from "next/font/google";
+import {
+  getCookie,
+  isBingoCookieSet,
+  setBingoCookie,
+  BINGO_COOKIE_NAME,
+} from "./cookie";
+
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 const abilities = [
@@ -48,65 +55,62 @@ const abilities = [
 const getAbility = () => {
   const index = parseInt(`${Math.random() * abilities.length}`);
   const ability = abilities.splice(index, 1);
-  return ability;
+  return ability[0];
 };
 
-const bingo = [
-  [
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-  ],
-  [
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-  ],
-  [
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-  ],
-  [
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-    { text: getAbility(), marked: false },
-  ],
-];
+const createAbility = (marked?: boolean) => {
+  return { text: getAbility(), marked: marked ?? false };
+};
+
+const createBingoRow = (nColumns: number) => {
+  const bingoRow = [];
+  for (let i = 0; i < nColumns; i++) bingoRow.push(createAbility());
+
+  return bingoRow;
+};
+
+const createBingo = (nRows: number, nColumns: number) => {
+  const bingo = [];
+  for (let i = 0; i < nRows; i++) bingo.push(createBingoRow(nColumns));
+  return bingo;
+};
 
 export default function Home() {
-  const [card, setCard] = useState<typeof bingo | null>(null);
+  const [bingo, setBingo] = useState<ReturnType<typeof createBingo> | null>(
+    null
+  );
 
   const markCard = (cardIndex: string) => {
-    setCard(
-      (prevState) =>
+    setBingo((prevState) => {
+      const updatedBingo =
         prevState?.map((row, rowIdx) =>
           row.map((item, itemIdx) =>
             `${rowIdx}x${itemIdx}` === cardIndex
               ? { ...item, marked: !item.marked }
               : item
           )
-        ) ?? null
-    );
+        ) ?? null;
+
+      setBingoCookie(JSON.stringify(updatedBingo));
+      return updatedBingo;
+    });
   };
 
   useEffect(() => {
-    setCard(bingo);
+    if (isBingoCookieSet()) {
+      setBingo(JSON.parse(getCookie(BINGO_COOKIE_NAME)));
+      return;
+    }
+    const todaysBingo = createBingo(4, 4);
+    setBingoCookie(JSON.stringify(todaysBingo));
+    setBingo(todaysBingo);
   }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className={`${montserrat} text-5xl`}>Bingolino</h1>
       <div className="grid grid-rows-4 grid-flow-col">
-        {card?.map((row, rowIdx) =>
+        {bingo?.map((row, rowIdx) =>
           row.map((item, itemIdx) => (
             <div
               key={Math.random()}
