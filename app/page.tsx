@@ -31,7 +31,7 @@ const abilities = [
   '"Queria muito comer um doce"',
   "Assunto sexual",
   '"Caguei 15x hoje"',
-  "Playlista com Foo Fighters",
+  "Playlist com Foo Fighters",
   "Gemida",
   "Vitimismo",
   "Perguntar se a live caiu 3x",
