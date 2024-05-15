@@ -17,7 +17,6 @@ const abilities = [
   "Net caindo",
   "Dor no ombro",
   "Gank em mulher na twitch",
-  '"No mínimo"',
   "Ignora todo mundo",
   "Vizinho com música alta",
   "Dor de cabeça",
@@ -41,6 +40,9 @@ const abilities = [
   "Falar mal de soulslike",
   '"Acordei meu pai"',
   '"Acordei minha mãe"',
+  "Falar mal da série Dark",
+  '"Morri"',
+  "Falar mal de SP",
 ];
 
 const getAbility = () => {
