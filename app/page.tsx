@@ -117,13 +117,13 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className={`${montserrat} text-5xl`}>Bingolino</h1>
-      <div className="grid grid-rows-5 grid-flow-col">
+      <h1 className={`${montserrat.className} text-5xl`}>Bingolino</h1>
+      <div className="grid grid-rows-5 grid-flow-col gap-2">
         {bingo?.map((row, rowIdx) =>
           row.map((item, itemIdx) => (
             <div
               key={Math.random()}
-              className="w-[8rem] max-h-[8rem] aspect-square bg-slate-50 border-2 border-black text-black flex items-center justify-center p-4 text-center cursor-pointer hover:opacity-[0.95]"
+              className="w-[8rem] max-h-[8rem] aspect-square bg-slate-50 border-1 text-black flex items-center justify-center p-2 text-center cursor-pointer hover:opacity-[0.95]"
               onClick={() => markCard(`${rowIdx}x${itemIdx}`)}
             >
               <p>{item.text}</p>
