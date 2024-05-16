@@ -18,38 +18,46 @@ const abilities = [
   "Votar em Shrek 2",
   "Rinite",
   "Dor nas costas",
-  "Não dormi direito",
+  "Não dormiu direito",
   '"Vai miollo vai"',
   "Gripado",
   "Net caindo",
   "Dor no ombro",
   "Gank em mulher na twitch",
-  "Ignora todo mundo",
-  "Vizinho com música alta",
+  "Ignora o chat",
   "Dor de cabeça",
   "Reclamar da twitch",
   '"Vontade de gritar"',
   "Live atrasada",
   "Problema no PC",
-  '"Do muibo boente"',
+  '"Tô buito doente"',
   '"Agora eu caí"',
-  '"To muito irritado"',
-  '"Queria muito comer um doce"',
+  '"Tô muito irritado"',
   "Assunto sexual",
-  '"Caguei 15x hoje"',
-  "Playlist com Foo Fighters",
+  '"Caguei 3x hoje"',
+  '"Caguei 6x hoje"',
   "Gemida",
   "Vitimismo",
-  "Perguntar se a live caiu 3x",
+  "Perguntar se a live caiu",
   "Tourette",
   "Falar sobre velhas",
   "Falar mal de café",
   "Falar mal de soulslike",
+  "Falar mal da série Dark",
+  "Falar mal de SP",
   '"Acordei meu pai"',
   '"Acordei minha mãe"',
-  "Falar mal da série Dark",
   '"Morri"',
-  "Falar mal de SP",
+  "Falar do pai do Matheus com o padeiro",
+  "Chegou a hora que eu não posso falar alto",
+  "Culpar o próximo",
+  "Falar mal de Livramento",
+  "Falar que não tem dengue no Uruguai",
+  '"Bá, um docinho agora"',
+  '"Peraí que tão batendo aqui"',
+  "Cantarolar bagaceirada",
+  "Se finge de surdo",
+  '"Esqueci meu remédio"',
 ];
 
 const getAbility = () => {
@@ -101,7 +109,7 @@ export default function Home() {
       setBingo(JSON.parse(getCookie(BINGO_COOKIE_NAME)));
       return;
     }
-    const todaysBingo = createBingo(4, 4);
+    const todaysBingo = createBingo(5, 5);
     setBingoCookie(JSON.stringify(todaysBingo));
     setBingo(todaysBingo);
   }, []);
@@ -109,12 +117,12 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className={`${montserrat} text-5xl`}>Bingolino</h1>
-      <div className="grid grid-rows-4 grid-flow-col">
+      <div className="grid grid-rows-5 grid-flow-col">
         {bingo?.map((row, rowIdx) =>
           row.map((item, itemIdx) => (
             <div
               key={Math.random()}
-              className="h-40 aspect-square bg-slate-50 border-2 border-black text-black flex items-center justify-center p-4 text-center cursor-pointer hover:opacity-[0.95]"
+              className="w-[8rem] max-h-[8rem] aspect-square bg-slate-50 border-2 border-black text-black flex items-center justify-center p-4 text-center cursor-pointer hover:opacity-[0.95]"
               onClick={() => markCard(`${rowIdx}x${itemIdx}`)}
             >
               <p>{item.text}</p>
