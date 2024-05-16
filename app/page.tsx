@@ -58,6 +58,7 @@ const abilities = [
   "Cantarolar bagaceirada",
   "Se finge de surdo",
   '"Esqueci meu remédio"',
+  '"Eu tenho a memória ruim"',
 ];
 
 const getAbility = () => {
