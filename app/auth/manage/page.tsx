@@ -63,9 +63,22 @@ export default function TwitchExtensionManager() {
     },
   });
 
+  const submitNewItem = ({
+    itemName,
+    streamer,
+  }: {
+    itemName: string;
+    streamer: string;
+  }) => {
+    createBingoItemMutation.mutate({
+      itemName,
+      streamer,
+    });
+  };
+
   const handleKeyUp = (evt: KeyboardEvent<HTMLInputElement>) => {
     if (evt.key === "Enter") {
-      createBingoItemMutation.mutate({
+      submitNewItem({
         itemName: evt.currentTarget.value,
         streamer: "inoxville",
       });
@@ -121,6 +134,14 @@ export default function TwitchExtensionManager() {
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            onClick={() => {
+              if (inputRef.current?.value)
+                submitNewItem({
+                  itemName: inputRef.current.value,
+                  streamer: "inoxville",
+                });
+              else inputRef.current?.focus();
+            }}
           >
             <path
               stroke-linecap="round"
@@ -178,7 +199,12 @@ export default function TwitchExtensionManager() {
                   />
                 </svg>
               </span>
-              <span className="ml-4 text-sm">{item.name}</span>
+              <span
+                className="px-4 text-sm text-ellipsis overflow-hidden whitespace-nowrap"
+                title={item.name}
+              >
+                {item.name}
+              </span>
               <button
                 className="ml-auto"
                 onClick={() => setSelectedItem(item)}
