@@ -1,0 +1,173 @@
+{
+  "id": "f8be450f-e52b-4571-ae8b-e61a1ce10619",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "6",
+  "dialect": "postgresql",
+  "tables": {
+    "public.bingos": {
+      "name": "bingos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "streamer": {
+          "name": "streamer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expiredAt": {
+          "name": "expiredAt",
+          "type": "timestamp (3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now() + '1 day'::interval"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "b_streamerIndex": {
+          "name": "b_streamerIndex",
+          "columns": [
+            "streamer"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.selected_bingos_items": {
+      "name": "selected_bingos_items",
+      "schema": "",
+      "columns": {
+        "bingoItemId": {
+          "name": "bingoItemId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bingoId": {
+          "name": "bingoId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "marked": {
+          "name": "marked",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "selected_bingos_items_bingoItemId_streamer_bingos_items_id_fk": {
+          "name": "selected_bingos_items_bingoItemId_streamer_bingos_items_id_fk",
+          "tableFrom": "selected_bingos_items",
+          "tableTo": "streamer_bingos_items",
+          "columnsFrom": [
+            "bingoItemId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "selected_bingos_items_bingoId_bingos_id_fk": {
+          "name": "selected_bingos_items_bingoId_bingos_id_fk",
+          "tableFrom": "selected_bingos_items",
+          "tableTo": "bingos",
+          "columnsFrom": [
+            "bingoId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "selected_bingos_items_bingoId_bingoItemId_pk": {
+          "name": "selected_bingos_items_bingoId_bingoItemId_pk",
+          "columns": [
+            "bingoId",
+            "bingoItemId"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "public.streamer_bingos_items": {
+      "name": "streamer_bingos_items",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "streamer": {
+          "name": "streamer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "sbi_streamerIndex": {
+          "name": "sbi_streamerIndex",
+          "columns": [
+            "streamer"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

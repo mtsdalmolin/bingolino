@@ -1,3 +1,5 @@
+import { getTomorrowDate } from "./date";
+
 export const BINGO_COOKIE_NAME = "@bingolino:bingo";
 export const BINGO_COOKIE_EXPIRES = "@bingolino:expires";
 
@@ -13,11 +15,7 @@ function setBingoExpiresCookie(cookieValue: string) {
 
 export function setBingoCookie(cookieValue: string) {
   const today = new Date();
-  const tomorrowStartDate = new Date(
-    `${today.getFullYear()}-${today.getMonth() + 1}-${
-      today.getDate() + 1
-    } 00:00:00`
-  );
+  const tomorrowStartDate = getTomorrowDate();
 
   let expires = `expires=${tomorrowStartDate.toUTCString()}`;
   const expiresCookie = getCookie(BINGO_COOKIE_EXPIRES);
