@@ -1,18 +1,17 @@
+import { StreamerItemsFromApi } from "@/app/auth/manage/page";
 import { setBingoCookie } from "./cookie";
 
-const getAbility = <Abilities extends { name: string }[]>(
+const getAbility = <Abilities extends StreamerItemsFromApi[]>(
   abilities: Abilities
 ) => {
   const index = parseInt(`${Math.random() * abilities.length}`);
   const ability = abilities.splice(index, 1);
-  return ability[0].name;
+  return ability[0];
 };
 
-const createAbility = <Abilities extends []>(
-  abilities: Abilities,
-  marked?: boolean
-) => {
-  return { text: getAbility(abilities), marked: marked ?? false };
+const createAbility = <Abilities extends []>(abilities: Abilities) => {
+  const ability = getAbility(abilities);
+  return ability;
 };
 
 const createBingoRow = <Abilities extends []>(
@@ -37,13 +36,13 @@ export const markStreamerSelectedItems = (
   markedOptions: any
 ) => {
   const markedBingo = [...bingo];
-  const isItemChecked = (itemName: string) =>
+  const isItemChecked = (item: { id: number }) =>
     markedOptions.find(
-      (markedOption: { itemName: string }) => markedOption.itemName === itemName
-    );
+      (markedOption: { id: number }) => markedOption.id === item.id
+    ).marked;
   bingo.forEach((row, rowIdx) => {
     row.forEach((item, columnIdx) => {
-      if (isItemChecked(item.text)) {
+      if (isItemChecked(item)) {
         markedBingo[rowIdx][columnIdx] = { ...item, marked: true };
         return;
       }

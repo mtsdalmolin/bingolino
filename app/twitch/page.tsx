@@ -12,6 +12,8 @@ import {
 } from "@/lib/cookie";
 import { getBingoItems } from "@/lib/api/get-bingo-items";
 import { getStreamerItems } from "@/lib/api/get-streamer-items";
+import { useQuery } from "@tanstack/react-query";
+import { StreamerItemsFromApi } from "../auth/manage/page";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -21,6 +23,16 @@ export default function TwitchExtension() {
   );
   const [openBingo, setOpenBingo] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const { data: streamerItems } = useQuery<StreamerItemsFromApi[]>({
+    queryKey: ["getStreamerItems"],
+    queryFn: getStreamerItems("inoxville"),
+  });
+
+  const { data: selectedItems } = useQuery<StreamerItemsFromApi[]>({
+    queryKey: ["getSelectedItems"],
+    queryFn: getBingoItems("inoxville"),
+  });
 
   const markCard = (cardIndex: string) => {
     setBingo((prevState) => {
@@ -40,21 +52,22 @@ export default function TwitchExtension() {
 
   useEffect(() => {
     setLoading(true);
-    getBingoItems().then((markedOptions: unknown) => {
+    if (selectedItems) {
       if (isBingoCookieSet()) {
         const bingoFromCookie = JSON.parse(getCookie(BINGO_COOKIE_NAME));
-        setBingo(markStreamerSelectedItems(bingoFromCookie, markedOptions));
+        setBingo(markStreamerSelectedItems(bingoFromCookie, selectedItems));
         setLoading(false);
         return;
       }
-      getStreamerItems().then((streamerItems) => {
-        const todaysBingo = createBingo(5, 5, streamerItems);
-        setBingoCookie(JSON.stringify(todaysBingo));
-        setBingo(todaysBingo);
-        setLoading(false);
-      });
-    });
-  }, []);
+    }
+
+    if (streamerItems) {
+      const todaysBingo = createBingo(5, 5, streamerItems as []);
+      setBingoCookie(JSON.stringify(todaysBingo));
+      setBingo(todaysBingo);
+      setLoading(false);
+    }
+  }, [streamerItems, selectedItems]);
 
   return (
     <main className="flex items-center min-h-screen">
@@ -75,7 +88,7 @@ export default function TwitchExtension() {
                 className="w-[8rem] max-h-[8rem] aspect-square bg-slate-50 border-1 text-black flex items-center justify-center p-2 text-center cursor-pointer hover:opacity-[0.95]"
                 onClick={() => markCard(`${rowIdx}x${itemIdx}`)}
               >
-                <p>{item.text}</p>
+                <p>{item.name}</p>
                 {item.marked ? (
                   <Image
                     className="absolute"

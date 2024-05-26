@@ -1,6 +1,6 @@
-export const getStreamerItems = async () => {
-  const response = await fetch("/api/bingo/items/inoxville").then((response) =>
-    response.json()
+export const getStreamerItems = (streamerName: string) => async () => {
+  const response = await fetch(`/api/bingo/items/${streamerName}`).then(
+    (response) => response.json()
   );
 
   return response;

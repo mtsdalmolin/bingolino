@@ -2,6 +2,8 @@ import { getTomorrowDate } from "./date";
 
 export const BINGO_COOKIE_NAME = "@bingolino:bingo";
 export const BINGO_COOKIE_EXPIRES = "@bingolino:expires";
+export const TWITCH_TOKEN = "@bingolino:twitch-token";
+export const TWITCH_USER_DATA = "@bingolino:twitch-user-data";
 
 function setBingoExpiresCookie(cookieValue: string) {
   if (document.cookie.includes(BINGO_COOKIE_EXPIRES)) {
@@ -9,7 +11,7 @@ function setBingoExpiresCookie(cookieValue: string) {
       getCookie(BINGO_COOKIE_EXPIRES).split("=")[1];
     document.cookie.replace(currentBingoExpiresValue, cookieValue);
   } else {
-    document.cookie = `${document.cookie}${BINGO_COOKIE_EXPIRES}=${cookieValue};path=/`;
+    document.cookie = `${BINGO_COOKIE_EXPIRES}=${cookieValue};path=/`;
   }
 }
 
@@ -35,6 +37,14 @@ export function setBingoCookie(cookieValue: string) {
   }
 
   document.cookie = `${BINGO_COOKIE_NAME}=${cookieValue};${expires};path=/`;
+}
+
+export function setCookie(
+  cookieName: string,
+  cookieValue: string,
+  expires?: string
+) {
+  document.cookie = `${cookieName}=${cookieValue};${expires + ";"}path=/`;
 }
 
 export function getCookie(cookieName: string) {
