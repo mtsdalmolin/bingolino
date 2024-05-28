@@ -19,7 +19,7 @@ export default function Home() {
     StreamerItemsFromApi[]
   >({
     queryKey: ["getStreamerItems"],
-    queryFn: getStreamerItems("inoxville"),
+    queryFn: getStreamerItems("Inoxville"),
   });
 
   const {
@@ -28,7 +28,7 @@ export default function Home() {
     isPending,
   } = useQuery<StreamerItemsFromApi[]>({
     queryKey: ["getActiveBingoId"],
-    queryFn: getActiveBingoId("inoxville"),
+    queryFn: getActiveBingoId("Inoxville"),
   });
 
   return (

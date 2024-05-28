@@ -15,7 +15,7 @@ export default function TwitchExtension() {
     StreamerItemsFromApi[]
   >({
     queryKey: ["getStreamerItems"],
-    queryFn: getStreamerItems("inoxville"),
+    queryFn: getStreamerItems("Inoxville"),
   });
 
   return (
