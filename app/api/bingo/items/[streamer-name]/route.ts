@@ -73,9 +73,7 @@ export async function PATCH(request: NextRequest) {
     !bingoId ||
     bingoId === "undefined" ||
     !itemId ||
-    itemId === "undefined" ||
-    !marked ||
-    marked === "undefined"
+    itemId === "undefined"
   ) {
     return NextResponse.json(
       { message: "Body not well formatted" },
