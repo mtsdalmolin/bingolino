@@ -1,4 +1,11 @@
-import { KeyboardEvent, useRef, useState } from "react";
+import {
+  Dispatch,
+  KeyboardEvent,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Montserrat } from "next/font/google";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getActiveBingoId } from "@/lib/api/get-active-bingo";
@@ -11,7 +18,13 @@ import { BingoItemsList } from "../items/list";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-export function ManageContent({ twitchUserData }: { twitchUserData: any }) {
+export function ManageContent({
+  twitchUserData,
+  setCurrentBingoId,
+}: {
+  twitchUserData: any;
+  setCurrentBingoId: Dispatch<SetStateAction<number | null>>;
+}) {
   const [selectedItem, setSelectedItem] = useState<StreamerItemsFromApi | null>(
     null
   );
@@ -81,6 +94,10 @@ export function ManageContent({ twitchUserData }: { twitchUserData: any }) {
       itemId: item.id,
     });
   };
+
+  useEffect(() => {
+    setCurrentBingoId(bingoId ?? null);
+  }, [bingoId, setCurrentBingoId]);
 
   return (
     <>

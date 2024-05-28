@@ -38,3 +38,21 @@ export async function GET(_: NextRequest, context: Context) {
 
   return NextResponse.json(bingo, { status: 200 });
 }
+
+export async function POST(_: NextRequest, context: Context) {
+  const streamerName = context.params["streamer-name"];
+
+  if (!streamerName || streamerName === "undefined") {
+    return NextResponse.json(
+      { message: "Streamer name not well formatted" },
+      { status: 422 }
+    );
+  }
+
+  try {
+    await db.insert(bingos).values({ streamer: streamerName });
+    return NextResponse.json({}, { status: 201 });
+  } catch (err: any) {
+    return NextResponse.json(err.detail, { status: 422 });
+  }
+}

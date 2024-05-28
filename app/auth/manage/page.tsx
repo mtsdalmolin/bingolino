@@ -39,6 +39,7 @@ if (typeof window === "object") {
 
 export default function TwitchExtensionManager() {
   const [twitchUserData, setTwitchUserData] = useState(null);
+  const [currentBingoId, setCurrentBingoId] = useState<number | null>(null);
 
   const { data: twitchUserDataFromApi } = useQuery({
     queryKey: ["getTwitchUserData"],
@@ -62,14 +63,18 @@ export default function TwitchExtensionManager() {
   }, [twitchUserDataFromApi]);
 
   return (
-    <main className="flex flex-col items-center min-h-screen">
+    <main className="flex flex-col items-center min-h-screen max-w-6xl mx-auto">
       {twitchUserData && !("message" in twitchUserData) ? (
         <>
           <ManageHeader
             fontFamily={montserrat.className}
             twitchUserData={twitchUserData}
+            hasBingoRunning={!!currentBingoId}
           />
-          <ManageContent twitchUserData={twitchUserData} />
+          <ManageContent
+            twitchUserData={twitchUserData}
+            setCurrentBingoId={setCurrentBingoId}
+          />
         </>
       ) : (
         <>

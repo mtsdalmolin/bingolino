@@ -1,13 +1,27 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import { postBingo } from "@/lib/api/post-bingo";
 
 export function ManageHeader({
   fontFamily,
   twitchUserData,
+  hasBingoRunning = false,
 }: {
   fontFamily: string;
   twitchUserData: any;
+  hasBingoRunning?: boolean;
 }) {
+  const createBingoMutation = useMutation({
+    mutationFn: postBingo(twitchUserData.display_name),
+  });
+
+  const handleCreateBingoClick = () => {
+    createBingoMutation.mutate();
+  };
+
   return (
     <header
       className={`${fontFamily} flex items-center justify-between w-full px-8 py-4`}
@@ -15,6 +29,14 @@ export function ManageHeader({
       <Link href="/">
         <h1 className={`${fontFamily} text-white text-2xl`}>Bingolino</h1>
       </Link>
+      {!hasBingoRunning ? (
+        <button
+          className="py-2 px-3 text-white bg-purple-900 rounded-md h-auto font-semibold"
+          onClick={handleCreateBingoClick}
+        >
+          {createBingoMutation.isPending ? "Criando..." : "Criar bingo"}
+        </button>
+      ) : null}
       <Link
         className={`${fontFamily} py-2 px-3 h-auto font-semibold`}
         href={`https://twitch.tv/${twitchUserData.display_name}`}
