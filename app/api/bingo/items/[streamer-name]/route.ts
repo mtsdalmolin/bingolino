@@ -11,6 +11,14 @@ type Context = {
 
 export async function GET(_: NextRequest, context: Context) {
   const streamerName = context.params["streamer-name"];
+
+  if (!streamerName || streamerName === "undefined") {
+    return NextResponse.json(
+      { message: "Streamer name not well formatted" },
+      { status: 422 }
+    );
+  }
+
   const streamerItems = await db
     .select({
       id: streamerBingosItems.id,
@@ -33,6 +41,20 @@ export async function POST(request: NextRequest, context: Context) {
   const requestBody = await request.json();
   const { itemName } = requestBody;
 
+  if (!streamerName || streamerName === "undefined") {
+    return NextResponse.json(
+      { message: "Streamer name not well formatted" },
+      { status: 422 }
+    );
+  }
+
+  if (!itemName || itemName === "undefined") {
+    return NextResponse.json(
+      { message: "Body not well formatted" },
+      { status: 422 }
+    );
+  }
+
   try {
     await db
       .insert(streamerBingosItems)
@@ -46,6 +68,20 @@ export async function POST(request: NextRequest, context: Context) {
 export async function PATCH(request: NextRequest) {
   const requestBody = await request.json();
   const { bingoId, itemId, marked } = requestBody;
+
+  if (
+    !bingoId ||
+    bingoId === "undefined" ||
+    !itemId ||
+    itemId === "undefined" ||
+    !marked ||
+    marked === "undefined"
+  ) {
+    return NextResponse.json(
+      { message: "Body not well formatted" },
+      { status: 422 }
+    );
+  }
 
   try {
     await db
@@ -65,6 +101,13 @@ export async function PATCH(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const requestBody = await request.json();
   const { itemId } = requestBody;
+
+  if (!itemId || itemId === "undefined") {
+    return NextResponse.json(
+      { message: "Body not well formatted" },
+      { status: 422 }
+    );
+  }
 
   try {
     await db
