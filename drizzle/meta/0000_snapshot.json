@@ -1,5 +1,5 @@
 {
-  "id": "f8be450f-e52b-4571-ae8b-e61a1ce10619",
+  "id": "85c9fb50-4d44-40f2-9154-66289a16377d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "6",
   "dialect": "postgresql",
@@ -25,7 +25,7 @@
           "type": "timestamp (3)",
           "primaryKey": false,
           "notNull": true,
-          "default": "now() + '1 day'::interval"
+          "default": "now() + '16 hour'::interval"
         },
         "createdAt": {
           "name": "createdAt",
@@ -91,8 +91,8 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         },
         "selected_bingos_items_bingoId_bingos_id_fk": {
           "name": "selected_bingos_items_bingoId_bingos_id_fk",
@@ -104,8 +104,8 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {

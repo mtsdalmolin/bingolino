@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "bingos" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"streamer" text NOT NULL,
-	"expiredAt" timestamp (3) DEFAULT now() + '1 day'::interval NOT NULL,
+	"expiredAt" timestamp (3) DEFAULT now() + '16 hour'::interval NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
@@ -21,13 +21,13 @@ CREATE TABLE IF NOT EXISTS "streamer_bingos_items" (
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "selected_bingos_items" ADD CONSTRAINT "selected_bingos_items_bingoItemId_streamer_bingos_items_id_fk" FOREIGN KEY ("bingoItemId") REFERENCES "public"."streamer_bingos_items"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "selected_bingos_items" ADD CONSTRAINT "selected_bingos_items_bingoItemId_streamer_bingos_items_id_fk" FOREIGN KEY ("bingoItemId") REFERENCES "public"."streamer_bingos_items"("id") ON DELETE cascade ON UPDATE cascade;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "selected_bingos_items" ADD CONSTRAINT "selected_bingos_items_bingoId_bingos_id_fk" FOREIGN KEY ("bingoId") REFERENCES "public"."bingos"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "selected_bingos_items" ADD CONSTRAINT "selected_bingos_items_bingoId_bingos_id_fk" FOREIGN KEY ("bingoId") REFERENCES "public"."bingos"("id") ON DELETE cascade ON UPDATE cascade;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

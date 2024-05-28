@@ -16,7 +16,7 @@ export const bingos = pgTable(
     id: serial("id").primaryKey(),
     streamer: text("streamer").notNull(),
     expiredAt: timestamp("expiredAt", { mode: "date", precision: 3 })
-      .default(sql`now() + '1 day'::interval`)
+      .default(sql`now() + '16 hour'::interval`)
       .notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
   },
@@ -46,9 +46,16 @@ export const selectedBingoItems = pgTable(
   "selected_bingos_items",
   {
     bingoItemId: integer("bingoItemId").references(
-      () => streamerBingosItems.id
+      () => streamerBingosItems.id,
+      {
+        onUpdate: "cascade",
+        onDelete: "cascade",
+      }
     ),
-    bingoId: integer("bingoId").references(() => bingos.id),
+    bingoId: integer("bingoId").references(() => bingos.id, {
+      onUpdate: "cascade",
+      onDelete: "cascade",
+    }),
     marked: boolean("marked").default(false).notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
   },
