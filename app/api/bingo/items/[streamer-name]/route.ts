@@ -20,7 +20,7 @@ export async function GET(_: NextRequest, context: Context) {
   }
 
   const streamerItems = await db
-    .select({
+    .selectDistinctOn([streamerBingosItems.id], {
       id: streamerBingosItems.id,
       name: streamerBingosItems.name,
       marked: selectedBingoItems.marked,
