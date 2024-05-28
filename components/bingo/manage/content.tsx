@@ -20,10 +20,15 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 
 export function ManageContent({
   twitchUserData,
-  setCurrentBingoId,
+  setCurrentBingo,
 }: {
   twitchUserData: any;
-  setCurrentBingoId: Dispatch<SetStateAction<number | null>>;
+  setCurrentBingo: Dispatch<
+    SetStateAction<{
+      bingoId: number;
+      expiredAt: string;
+    } | null>
+  >;
 }) {
   const [selectedItem, setSelectedItem] = useState<StreamerItemsFromApi | null>(
     null
@@ -31,7 +36,10 @@ export function ManageContent({
   const inputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
-  const { data: bingoId } = useQuery<number>({
+  const { data: activeBingo } = useQuery<{
+    bingoId: number;
+    expiredAt: string;
+  }>({
     queryKey: ["getActiveBingoId"],
     queryFn: getActiveBingoId(twitchUserData.display_name),
   });
@@ -82,11 +90,12 @@ export function ManageContent({
   };
 
   const handleMarkItemClick = (item: StreamerItemsFromApi) => {
-    markitemMutation.mutate({
-      itemId: item.id,
-      marked: !item.marked,
-      bingoId,
-    });
+    if (activeBingo?.bingoId)
+      markitemMutation.mutate({
+        itemId: item.id,
+        marked: !item.marked,
+        bingoId: activeBingo.bingoId,
+      });
   };
 
   const handleDeleteItemClick = (item: StreamerItemsFromApi) => {
@@ -96,8 +105,8 @@ export function ManageContent({
   };
 
   useEffect(() => {
-    setCurrentBingoId(bingoId ?? null);
-  }, [bingoId, setCurrentBingoId]);
+    setCurrentBingo(activeBingo ?? null);
+  }, [activeBingo, setCurrentBingo]);
 
   return (
     <>

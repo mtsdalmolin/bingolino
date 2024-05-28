@@ -14,6 +14,7 @@ export async function GET(_: NextRequest, context: Context) {
   const bingo = await db
     .select({
       bingoId: bingos.id,
+      expiredAt: bingos.expiredAt,
     })
     .from(bingos)
     .where(

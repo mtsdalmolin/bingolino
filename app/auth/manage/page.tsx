@@ -39,7 +39,10 @@ if (typeof window === "object") {
 
 export default function TwitchExtensionManager() {
   const [twitchUserData, setTwitchUserData] = useState(null);
-  const [currentBingoId, setCurrentBingoId] = useState<number | null>(null);
+  const [currentBingo, setCurrentBingo] = useState<{
+    bingoId: number;
+    expiredAt: string;
+  } | null>(null);
 
   const { data: twitchUserDataFromApi } = useQuery({
     queryKey: ["getTwitchUserData"],
@@ -69,11 +72,11 @@ export default function TwitchExtensionManager() {
           <ManageHeader
             fontFamily={montserrat.className}
             twitchUserData={twitchUserData}
-            hasBingoRunning={!!currentBingoId}
+            currentBingo={currentBingo}
           />
           <ManageContent
             twitchUserData={twitchUserData}
-            setCurrentBingoId={setCurrentBingoId}
+            setCurrentBingo={setCurrentBingo}
           />
         </>
       ) : (

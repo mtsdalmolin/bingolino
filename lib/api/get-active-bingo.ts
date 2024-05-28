@@ -3,5 +3,5 @@ export const getActiveBingoId = (streamerName: string) => async () => {
     (response) => response.json()
   );
 
-  return response[0].bingoId;
+  return response[0];
 };

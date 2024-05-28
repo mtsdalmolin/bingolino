@@ -8,11 +8,14 @@ import { postBingo } from "@/lib/api/post-bingo";
 export function ManageHeader({
   fontFamily,
   twitchUserData,
-  hasBingoRunning = false,
+  currentBingo,
 }: {
   fontFamily: string;
   twitchUserData: any;
-  hasBingoRunning?: boolean;
+  currentBingo: {
+    bingoId: number;
+    expiredAt: string;
+  } | null;
 }) {
   const createBingoMutation = useMutation({
     mutationFn: postBingo(twitchUserData.display_name),
@@ -29,14 +32,23 @@ export function ManageHeader({
       <Link href="/">
         <h1 className={`${fontFamily} text-white text-2xl`}>Bingolino</h1>
       </Link>
-      {!hasBingoRunning ? (
+      {currentBingo?.expiredAt ? (
+        <h3>
+          Bingo expira em{" "}
+          {new Date(currentBingo?.expiredAt).toLocaleTimeString("pt-BR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </h3>
+      ) : (
         <button
           className="py-2 px-3 text-white bg-purple-900 rounded-md h-auto font-semibold"
           onClick={handleCreateBingoClick}
         >
           {createBingoMutation.isPending ? "Criando..." : "Criar bingo"}
         </button>
-      ) : null}
+      )}
       <Link
         className={`${fontFamily} py-2 px-3 h-auto font-semibold`}
         href={`https://twitch.tv/${twitchUserData.display_name}`}
