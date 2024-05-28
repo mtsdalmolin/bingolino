@@ -3,5 +3,5 @@ export const postBingo = (streamerName: string) => async () => {
     method: "POST",
   }).then((response) => response.json());
 
-  return response[0].bingoId;
+  return response;
 };
