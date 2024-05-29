@@ -8,7 +8,7 @@ import {
 } from "react";
 import { Montserrat } from "next/font/google";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getActiveBingoId } from "@/lib/api/get-active-bingo";
+import { getActiveBingo } from "@/lib/api/get-active-bingo";
 import { postStreamerItem } from "@/lib/api/post-streamer-item";
 import { patchBingoItem } from "@/lib/api/patch-bingo-item";
 import { deleteStreamerItem } from "@/lib/api/delete-streamer-item";
@@ -41,8 +41,8 @@ export function ManageContent({
     bingoId: number;
     expiredAt: string;
   }>({
-    queryKey: ["getActiveBingoId"],
-    queryFn: getActiveBingoId(twitchUserData.display_name),
+    queryKey: ["getActiveBingo"],
+    queryFn: getActiveBingo(twitchUserData.display_name),
     enabled: !!twitchUserData.display_name,
   });
 

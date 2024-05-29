@@ -1,19 +1,18 @@
 "use client";
 
-import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import packageJson from "../package.json";
 
-import MarkerPng from "@/public/assets/marker.png";
-import BibleThumpPng from "@/public/assets/biblethump.png";
-import FacePalmPng from "@/public/assets/facepalm.png";
 import { BingoCard } from "@/components/bingo/card";
 import { getStreamerItems } from "@/lib/api/get-streamer-items";
-import { getActiveBingoId } from "@/lib/api/get-active-bingo";
+import { getActiveBingo } from "@/lib/api/get-active-bingo";
 
 import { StreamerItemsFromApi } from "./auth/manage/page";
+import { LoadingBingo } from "@/components/bingo/states/loading-bingo";
+import { NotEnoughItems } from "@/components/bingo/states/not-enough-items";
+import { NoActiveBingo } from "@/components/bingo/states/no-active-bingo";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -33,42 +32,19 @@ export default function Home() {
     isLoading: isLoadingActiveBingo,
     isPending,
   } = useQuery<{ id: number; expiredAt: string }>({
-    queryKey: ["getActiveBingoId"],
-    queryFn: getActiveBingoId(streamerName ?? "Inoxville"),
+    queryKey: ["getActiveBingo"],
+    queryFn: getActiveBingo(streamerName ?? "Inoxville"),
   });
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-between p-24">
       <h1 className={`${montserrat.className} text-5xl`}>Bingolino</h1>
       {!isPending && !activeBingo ? (
-        <>
-          <Image
-            src={BibleThumpPng}
-            width={235}
-            height={235}
-            alt="Biblethump"
-          />
-          <p>Não há bingos ativos no momento!</p>
-        </>
+        <NoActiveBingo />
       ) : streamerItems && streamerItems.length < 25 ? (
-        <>
-          <Image src={FacePalmPng} width={500} height={500} alt="Facepalm" />
-          <p>
-            O streamer não cadastrou o número mínimo de itens para criarmos um
-            bingo!
-          </p>
-        </>
+        <NotEnoughItems />
       ) : isLoadingStreamerItems || isLoadingActiveBingo ? (
-        <>
-          <Image
-            className="animate-spin"
-            src={MarkerPng}
-            width={235}
-            height={235}
-            alt="Marcador com a cara do Inoxville"
-          />
-          <p>Carregando itens do bingo...</p>
-        </>
+        <LoadingBingo />
       ) : (
         streamerItems &&
         activeBingo && (

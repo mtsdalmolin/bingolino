@@ -48,7 +48,7 @@ export function BingoCard({
   };
 
   useEffect(() => {
-    if (streamerItems) {
+    if (streamerItems && activeBingo) {
       if (isBingoCookieSet()) {
         const bingoFromCookie = JSON.parse(getCookie(BINGO_COOKIE));
         setBingo(
