@@ -1,21 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
 import { getTwitchAuthLink } from "@/lib/twitch/auth";
-import { useQuery } from "@tanstack/react-query";
 import packageJson from "@/package.json";
-import {
-  TWITCH_TOKEN,
-  TWITCH_USER_DATA,
-  getCookie,
-  setCookie,
-} from "@/lib/cookie";
-import { getTwitchUserData } from "@/lib/twitch/api/get-user-data";
 import { ManageContent } from "@/components/bingo/manage/content";
 import { ManageHeader } from "@/components/bingo/manage/header";
 
 import "./manage.css";
+import { useTwitchUserDataContext } from "@/context/twitch-user-data";
 
 export type StreamerItemsFromApi = {
   id: number;
@@ -25,65 +18,29 @@ export type StreamerItemsFromApi = {
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-const hashRouter: Record<string, string> = {};
-
-if (typeof window === "object") {
-  window.location.hash
-    ?.replace("#", "")
-    .split("&")
-    .forEach((item) => {
-      const [key, value] = item.split("=");
-      hashRouter[key] = value;
-    });
-}
-
 export default function TwitchExtensionManager() {
-  const [twitchUserData, setTwitchUserData] = useState(null);
   const [currentBingo, setCurrentBingo] = useState<{
     bingoId: number;
     expiredAt: string;
   } | null>(null);
 
-  const { data: twitchUserDataFromApi } = useQuery({
-    queryKey: ["getTwitchUserData"],
-    queryFn: () =>
-      getTwitchUserData(hashRouter.access_token, hashRouter.token_type),
-  });
-
-  useEffect(() => {
-    if (twitchUserDataFromApi && twitchUserDataFromApi.message) {
-      setTwitchUserData(null);
-    }
-
-    if (twitchUserDataFromApi && "login" in twitchUserDataFromApi) {
-      if (!getCookie(TWITCH_USER_DATA))
-        setCookie(TWITCH_USER_DATA, JSON.stringify(twitchUserDataFromApi));
-      if (!getCookie(TWITCH_TOKEN) && hashRouter.access_token)
-        setCookie(TWITCH_TOKEN, hashRouter.access_token);
-
-      if (twitchUserDataFromApi) setTwitchUserData(twitchUserDataFromApi);
-    }
-  }, [twitchUserDataFromApi]);
+  const { twitchUserData } = useTwitchUserDataContext();
 
   return (
     <main className="flex flex-col items-center min-h-screen max-w-6xl mx-auto">
-      {twitchUserData && !("message" in twitchUserData) ? (
+      {twitchUserData.login ? (
         <>
           <ManageHeader
             fontFamily={montserrat.className}
-            twitchUserData={twitchUserData}
             currentBingo={currentBingo}
           />
-          <ManageContent
-            twitchUserData={twitchUserData}
-            setCurrentBingo={setCurrentBingo}
-          />
+          <ManageContent setCurrentBingo={setCurrentBingo} />
         </>
       ) : (
         <>
           <header
             className={`${montserrat.className} flex items-center ${
-              twitchUserData ? "justify-between" : ""
+              twitchUserData.login ? "justify-between" : ""
             } w-full px-8 py-4`}
           >
             <Link href="/">

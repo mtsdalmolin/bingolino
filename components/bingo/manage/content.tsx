@@ -15,14 +15,13 @@ import { deleteStreamerItem } from "@/lib/api/delete-streamer-item";
 import { StreamerItemsFromApi } from "@/app/auth/manage/page";
 import { ConfirmationModal } from "@/components/modal/confirmation.client";
 import { BingoItemsList } from "../items/list";
+import { useTwitchUserDataContext } from "@/context/twitch-user-data";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export function ManageContent({
-  twitchUserData,
   setCurrentBingo,
 }: {
-  twitchUserData: any;
   setCurrentBingo: Dispatch<
     SetStateAction<{
       bingoId: number;
@@ -30,6 +29,8 @@ export function ManageContent({
     } | null>
   >;
 }) {
+  const { twitchUserData } = useTwitchUserDataContext();
+
   const [selectedItem, setSelectedItem] = useState<StreamerItemsFromApi | null>(
     null
   );
@@ -42,6 +43,7 @@ export function ManageContent({
   }>({
     queryKey: ["getActiveBingoId"],
     queryFn: getActiveBingoId(twitchUserData.display_name),
+    enabled: !!twitchUserData.display_name,
   });
 
   const createBingoItemMutation = useMutation({
