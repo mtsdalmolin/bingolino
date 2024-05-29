@@ -12,9 +12,11 @@ import MarkerPng from "@/public/assets/marker.png";
 import { StreamerItemsFromApi } from "@/app/auth/manage/page";
 
 export function BingoCard({
+  activeBingo,
   streamerItems,
   withWrapper = false,
 }: {
+  activeBingo: { id: number; expiredAt: string };
   streamerItems: StreamerItemsFromApi[];
   withWrapper?: boolean;
 }) {
@@ -40,7 +42,7 @@ export function BingoCard({
           )
         ) ?? null;
 
-      setBingoCookie(JSON.stringify(updatedBingo));
+      setBingoCookie(JSON.stringify(updatedBingo), activeBingo.expiredAt);
       return updatedBingo;
     });
   };
@@ -49,15 +51,21 @@ export function BingoCard({
     if (streamerItems) {
       if (isBingoCookieSet()) {
         const bingoFromCookie = JSON.parse(getCookie(BINGO_COOKIE_NAME));
-        setBingo(markStreamerSelectedItems(bingoFromCookie, streamerItems));
+        setBingo(
+          markStreamerSelectedItems(
+            bingoFromCookie,
+            streamerItems,
+            activeBingo.expiredAt
+          )
+        );
         return;
       }
 
       const todaysBingo = createBingo(5, 5, streamerItems as []);
-      setBingoCookie(JSON.stringify(todaysBingo));
+      setBingoCookie(JSON.stringify(todaysBingo), activeBingo.expiredAt);
       setBingo(todaysBingo);
     }
-  }, [streamerItems]);
+  }, [streamerItems, activeBingo]);
 
   return (
     <Wrapper>

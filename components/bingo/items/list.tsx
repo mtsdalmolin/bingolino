@@ -1,7 +1,7 @@
+import { Dispatch, SetStateAction } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { StreamerItemsFromApi } from "@/app/auth/manage/page";
 import { getStreamerItems } from "@/lib/api/get-streamer-items";
-import { useQuery } from "@tanstack/react-query";
-import { Dispatch, SetStateAction } from "react";
 
 export function BingoItemsList({
   twitchUserData,

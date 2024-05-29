@@ -168,6 +168,7 @@ export function ManageContent({
         <ConfirmationModal
           title={`Deletar ${selectedItem.name}`}
           description={`Você tem certeza que deseja deletar o item "${selectedItem.name}"? Essa alteração é irreversível!`}
+          isLoading={deleteStreamerItemMutation.isPending}
           onConfirm={() => handleDeleteItemClick(selectedItem)}
           onCancel={() => setSelectedItem(null)}
         />

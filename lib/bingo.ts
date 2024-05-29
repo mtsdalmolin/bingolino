@@ -33,7 +33,8 @@ export const createBingo = (nRows: number, nColumns: number, abilities: []) => {
 
 export const markStreamerSelectedItems = (
   bingo: ReturnType<typeof createBingo>,
-  markedOptions: any
+  markedOptions: any,
+  expires: string
 ) => {
   const markedBingo = [...bingo];
   const isItemChecked = (item: { id: number }) =>
@@ -49,6 +50,6 @@ export const markStreamerSelectedItems = (
       markedBingo[rowIdx][columnIdx] = { ...item };
     });
   });
-  setBingoCookie(JSON.stringify(markedBingo));
+  setBingoCookie(JSON.stringify(markedBingo), expires);
   return markedBingo;
 };

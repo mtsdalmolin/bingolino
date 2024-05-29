@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postBingo } from "@/lib/api/post-bingo";
 import { useTwitchUserDataContext } from "@/context/twitch-user-data";
 
@@ -17,9 +17,13 @@ export function ManageHeader({
   } | null;
 }) {
   const { twitchUserData } = useTwitchUserDataContext();
+  const queryClient = useQueryClient();
 
   const createBingoMutation = useMutation({
     mutationFn: postBingo(twitchUserData.display_name),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getStreamerItems"] });
+    },
   });
 
   const handleCreateBingoClick = () => {
