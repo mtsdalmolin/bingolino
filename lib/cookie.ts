@@ -1,9 +1,9 @@
-export const BINGO_COOKIE_NAME = "@bingolino:bingo";
+export const BINGO_COOKIE = "@bingolino:bingo";
 export const TWITCH_TOKEN = "@bingolino:twitch-token";
 export const TWITCH_USER_DATA = "@bingolino:twitch-user-data";
 
 export function setBingoCookie(cookieValue: string, expires: string) {
-  document.cookie = `${BINGO_COOKIE_NAME}=${cookieValue};${expires};path=/`;
+  document.cookie = `${BINGO_COOKIE}=${cookieValue};${expires};path=/`;
 }
 
 export function setCookie(
@@ -29,5 +29,5 @@ export function getCookie(cookieName: string) {
 }
 
 export function isBingoCookieSet() {
-  return !!getCookie(BINGO_COOKIE_NAME);
+  return !!getCookie(BINGO_COOKIE);
 }

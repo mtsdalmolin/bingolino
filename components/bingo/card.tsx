@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { createBingo, markStreamerSelectedItems } from "@/lib/bingo";
 import {
-  BINGO_COOKIE_NAME,
+  BINGO_COOKIE,
   getCookie,
   isBingoCookieSet,
   setBingoCookie,
@@ -50,7 +50,7 @@ export function BingoCard({
   useEffect(() => {
     if (streamerItems) {
       if (isBingoCookieSet()) {
-        const bingoFromCookie = JSON.parse(getCookie(BINGO_COOKIE_NAME));
+        const bingoFromCookie = JSON.parse(getCookie(BINGO_COOKIE));
         setBingo(
           markStreamerSelectedItems(
             bingoFromCookie,
