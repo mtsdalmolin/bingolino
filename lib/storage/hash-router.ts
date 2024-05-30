@@ -13,6 +13,8 @@ function subscribe(callback: () => void) {
 }
 
 function getHashRouterSnapshot() {
+  if (typeof window === "undefined") return {};
+
   window.location.hash
     ?.replace("#", "")
     .split("&")

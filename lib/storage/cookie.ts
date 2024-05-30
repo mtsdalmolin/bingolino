@@ -48,7 +48,7 @@ function subscribe(callback: () => void) {
 
 function getCookiesStateSnapshot(cookieName: string): () => any {
   if (typeof document === "undefined") {
-    return () => {};
+    return () => null;
   }
 
   let cookieValue = getCookie(cookieName);

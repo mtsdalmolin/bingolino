@@ -40,16 +40,19 @@ export function TwitchUserDataContextProvider({
     TwitchUserDataFromCookie | ""
   >(
     CookiesExternalStore.subscribe,
+    CookiesExternalStore.getCookiesStateSnapshot(TWITCH_USER_DATA),
     CookiesExternalStore.getCookiesStateSnapshot(TWITCH_USER_DATA)
   );
 
   const twitchTokenFromCookie = useSyncExternalStore<string>(
     CookiesExternalStore.subscribe,
+    CookiesExternalStore.getCookiesStateSnapshot(TWITCH_TOKEN),
     CookiesExternalStore.getCookiesStateSnapshot(TWITCH_TOKEN)
   );
 
   const hashRouter = useSyncExternalStore(
     HashRouterExternalStore.subscribe,
+    HashRouterExternalStore.getHashRouterSnapshot,
     HashRouterExternalStore.getHashRouterSnapshot
   );
 

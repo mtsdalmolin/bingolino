@@ -1,7 +1,10 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import UseQueryClientProvider from "@/lib/react-query/provider";
 import { TwitchUserDataContextProvider } from "@/context/twitch-user-data";
+import { LoadingBingo } from "@/components/bingo/states/loading-bingo";
+
 import "../../../app/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,11 +21,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <UseQueryClientProvider>
-          <TwitchUserDataContextProvider>
-            {children}
-          </TwitchUserDataContextProvider>
-        </UseQueryClientProvider>
+        <Suspense
+          fallback={
+            <div className="min-h-screen min-w-screen grid content-center place-content-center">
+              <LoadingBingo />
+            </div>
+          }
+        >
+          <UseQueryClientProvider>
+            <TwitchUserDataContextProvider>
+              {children}
+            </TwitchUserDataContextProvider>
+          </UseQueryClientProvider>
+        </Suspense>
       </body>
     </html>
   );

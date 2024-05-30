@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
@@ -28,7 +29,7 @@ export default function TwitchExtensionManager() {
 
   return (
     <main className="flex flex-col items-center min-h-screen max-w-6xl mx-auto">
-      {twitchUserData.login ? (
+      {twitchUserData && twitchUserData.login ? (
         <>
           <ManageHeader
             fontFamily={montserrat.className}
@@ -40,7 +41,7 @@ export default function TwitchExtensionManager() {
         <>
           <header
             className={`${montserrat.className} flex items-center ${
-              twitchUserData.login ? "justify-between" : ""
+              twitchUserData && twitchUserData.login ? "justify-between" : ""
             } w-full px-8 py-4`}
           >
             <Link href="/">
