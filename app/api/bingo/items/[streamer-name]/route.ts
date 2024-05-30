@@ -1,7 +1,11 @@
-import { db } from "@/lib/drizzle/db";
-import { selectedBingoItems, streamerBingosItems } from "@/lib/drizzle/schema";
-import { desc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+import { desc, eq, sql } from "drizzle-orm";
+import {
+  bingos,
+  selectedBingoItems,
+  streamerBingosItems,
+} from "@/lib/drizzle/schema";
+import { db } from "@/lib/drizzle/db";
 
 type Context = {
   params: {
@@ -19,21 +23,39 @@ export async function GET(_: NextRequest, context: Context) {
     );
   }
 
-  const streamerItems = await db
-    .selectDistinctOn([streamerBingosItems.id], {
+  const latestBingo = await db
+    .select({ id: bingos.id })
+    .from(bingos)
+    .where(eq(bingos.streamer, streamerName))
+    .orderBy(desc(bingos.id))
+    .limit(1);
+
+  const selectedBingoItemsByBingoId = db
+    .select()
+    .from(selectedBingoItems)
+    .where(eq(selectedBingoItems.bingoId, latestBingo[0].id))
+    .as("sbtbbid");
+
+  const streamerItemsSubQuery = db
+    .select({
       id: streamerBingosItems.id,
       name: streamerBingosItems.name,
-      marked: selectedBingoItems.marked,
+      marked: selectedBingoItemsByBingoId.marked,
     })
     .from(streamerBingosItems)
     .leftJoin(
-      selectedBingoItems,
-      eq(selectedBingoItems.bingoItemId, streamerBingosItems.id)
+      selectedBingoItemsByBingoId,
+      eq(selectedBingoItemsByBingoId.bingoItemId, streamerBingosItems.id)
     )
     .where(eq(streamerBingosItems.streamer, streamerName))
-    .orderBy(desc(streamerBingosItems.id));
+    .as("sq");
 
-  return NextResponse.json(streamerItems, { status: 200 });
+  const streamerItemsSorted = await db
+    .select()
+    .from(streamerItemsSubQuery)
+    .orderBy(sql`REPLACE("sq"."name", '"', '')`);
+
+  return NextResponse.json(streamerItemsSorted, { status: 200 });
 }
 
 export async function POST(request: NextRequest, context: Context) {

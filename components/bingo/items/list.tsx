@@ -23,8 +23,8 @@ export function BingoItemsList({
 
   return (
     <>
-      {isLoading || isLoadingStreamerItems ? (
-        <div className="w-full text-center">Carregando...</div>
+      {isLoadingStreamerItems ? (
+        <div className="w-full text-center">Carregando itens do bingo...</div>
       ) : null}
       {streamerItems?.length === 0 ? (
         <p className="text-center text-sm text-gray-300">
@@ -46,7 +46,9 @@ export function BingoItemsList({
             htmlFor="task_6"
           >
             <span
-              className="flex items-center justify-center w-5 h-5 text-transparent border-2 border-gray-500 rounded-full cursor-pointer"
+              className={`flex items-center justify-center w-5 h-5 text-transparent border-2 border-gray-500 rounded-full ${
+                isLoading ? "cursor-progress" : "cursor-pointer"
+              }`}
               onClick={() => onMarkItem(item)}
             >
               <svg

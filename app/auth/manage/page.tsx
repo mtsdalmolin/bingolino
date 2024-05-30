@@ -7,9 +7,9 @@ import { getTwitchAuthLink } from "@/lib/twitch/auth";
 import packageJson from "@/package.json";
 import { ManageContent } from "@/components/bingo/manage/content";
 import { ManageHeader } from "@/components/bingo/manage/header";
+import { useTwitchUserDataContext } from "@/context/twitch-user-data";
 
 import "./manage.css";
-import { useTwitchUserDataContext } from "@/context/twitch-user-data";
 
 export type StreamerItemsFromApi = {
   id: number;
