@@ -1,0 +1,38 @@
+{
+  "name": "bingolino",
+  "version": "1.0.4",
+  "private": true,
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@next/env": "^14.2.3",
+    "@tanstack/react-query": "^5.39.0",
+    "@vercel/postgres": "^0.8.0",
+    "drizzle-orm": "^0.30.10",
+    "next": "14.2.3",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "dotenv-cli": "latest",
+    "drizzle-kit": "^0.21.4",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "postcss": "^8",
+    "tailwind": "workspace:*",
+    "tailwindcss": "^3.4.1",
+    "tsconfig": "workspace:*",
+    "typescript": "^5"
+  }
+}
