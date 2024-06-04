@@ -7,9 +7,9 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "dotenv -e ../../.env.local -- next dev",
-    "build": "dotenv -e ../../.env.local -- next build",
-    "start": "dotenv -e ../../.env.local -- next start",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
