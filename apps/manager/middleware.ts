@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const allowedOrigins = [
-  "https://xz9qipou3eq1ufu0wqqwaslg6wrsjp.ext-twitch.tv/",
-];
+const allowedOrigins = ["https://xz9qipou3eq1ufu0wqqwaslg6wrsjp.ext-twitch.tv"];
 
 const corsOptions = {
   "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -29,7 +27,8 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
   if (isAllowedOrigin) {
-    response.headers.set("Access-Control-Allow-Origin", origin);
+    console.log("This origin is allowed: " + origin);
+    response.headers.set("Access-Control-Allow-Origin", "*");
   }
 
   Object.entries(corsOptions).forEach(([key, value]) => {
