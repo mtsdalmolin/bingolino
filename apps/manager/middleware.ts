@@ -27,7 +27,6 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
   if (isAllowedOrigin) {
-    console.log("This origin is allowed: " + origin);
     response.headers.set("Access-Control-Allow-Origin", "*");
   }
 
