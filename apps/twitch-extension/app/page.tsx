@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Montserrat } from "next/font/google";
 import { BingoCard } from "bingolino/components/bingo/card";
 import { NoActiveBingo } from "bingolino/components/bingo/states/no-active-bingo";
 import { NotEnoughItems } from "bingolino/components/bingo/states/not-enough-items";
@@ -10,11 +10,8 @@ import { type StreamerItemsFromApi } from "bingolino/lib/api/types";
 import { getStreamerItems } from "../api/get-streamer-items";
 import { getActiveBingo } from "../api/get-active-bingo";
 
-const montserrat = Montserrat({ subsets: ["latin"] });
-
 export default function TwitchExtension() {
   const [openBingo, setOpenBingo] = useState(false);
-  const [isClient, setIsClient] = useState(false);
 
   const { data: activeBingo, isLoading: isLoadingActiveBingo } = useQuery({
     queryKey: ["getActiveBingo"],
@@ -30,16 +27,12 @@ export default function TwitchExtension() {
     queryFn: getStreamerItems("Inoxville"),
   });
 
-  useEffect(() => {
-    if (!isClient) setIsClient(true);
-  }, []);
-
-  return isClient ? (
+  return (
     <main className="flex items-center min-h-screen text-white">
       {openBingo ? (
         <div className="relative flex flex-col items-center gap-2 p-4 bg-black">
           <button
-            className={`${montserrat.className} absolute top-0 right-0 text-white bg-purple-900 px-1 aspect-square rounded-sm font-bold leading-3`}
+            className="absolute top-0 right-0 text-white bg-purple-900 px-1 aspect-square rounded-sm font-bold leading-3"
             type="button"
             onClick={() => setOpenBingo(false)}
           >
@@ -70,7 +63,7 @@ export default function TwitchExtension() {
         </div>
       ) : (
         <button
-          className={`${montserrat.className} py-2 px-3 text-white bg-purple-900 rounded-md h-auto font-semibold disabled:opacity-70 disabled:cursor-not-allowed`}
+          className="py-2 px-3 text-white bg-purple-900 rounded-md h-auto font-semibold disabled:opacity-70 disabled:cursor-not-allowed"
           type="button"
           onClick={() => setOpenBingo(true)}
           disabled={isLoadingStreamerItems || isLoadingActiveBingo}
@@ -79,5 +72,5 @@ export default function TwitchExtension() {
         </button>
       )}
     </main>
-  ) : null;
+  );
 }
