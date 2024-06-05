@@ -38,9 +38,9 @@ export const markStreamerSelectedItems = (
 ) => {
   const markedBingo = [...bingo];
   const isItemChecked = (item: { id: number }) =>
-    markedOptions.find(
+    !!markedOptions.find(
       (markedOption: { id: number }) => markedOption.id === item.id
-    ).marked;
+    )?.marked;
   bingo.forEach((row, rowIdx) => {
     row.forEach((item, columnIdx) => {
       if (isItemChecked(item)) {

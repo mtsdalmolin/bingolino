@@ -8,7 +8,9 @@
   },
   "scripts": {
     "dev": "next dev",
+    "local:dev": "dotenv -e ../../.env.local -- next dev",
     "build": "next build",
+    "local:build": "dotenv -e ../../.env.local -- next build",
     "start": "next start",
     "lint": "next lint"
   },

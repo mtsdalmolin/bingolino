@@ -4,10 +4,13 @@
     "build": {
       "outputs": [".next/**", "!.next/cache/**"]
     },
-    "dev": {
+    "start": {},
+    "local:build": {
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "local:dev": {
       "cache": false,
       "persistent": true
-    },
-    "start": {}
+    }
   }
 }
