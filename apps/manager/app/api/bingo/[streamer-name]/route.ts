@@ -39,8 +39,16 @@ export async function GET(_: NextRequest, context: Context) {
   return NextResponse.json(bingo, { status: 200 });
 }
 
-export async function POST(_: NextRequest, context: Context) {
+export async function POST(request: NextRequest, context: Context) {
   const streamerName = context.params["streamer-name"];
+  const requestBody = await request.json();
+  const { dimensions } = requestBody;
+
+  if (!dimensions)
+    return NextResponse.json(
+      { message: "Dimensions not well formatted" },
+      { status: 422 }
+    );
 
   if (!streamerName || streamerName === "undefined") {
     return NextResponse.json(
@@ -50,7 +58,7 @@ export async function POST(_: NextRequest, context: Context) {
   }
 
   try {
-    await db.insert(bingos).values({ streamer: streamerName });
+    await db.insert(bingos).values({ streamer: streamerName, dimensions });
     return NextResponse.json({}, { status: 201 });
   } catch (err: any) {
     return NextResponse.json(err.detail, { status: 422 });

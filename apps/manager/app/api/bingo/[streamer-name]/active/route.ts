@@ -14,6 +14,7 @@ export async function GET(_: NextRequest, context: Context) {
   const bingo = await db
     .select({
       bingoId: bingos.id,
+      dimensions: bingos.dimensions,
       expiredAt: bingos.expiredAt,
     })
     .from(bingos)

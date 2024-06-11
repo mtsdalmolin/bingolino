@@ -9,6 +9,15 @@ export const twConfig: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        progress: {
+          "0%": { width: "0" },
+          "100%": { width: "100%" },
+        },
+      },
+      animation: {
+        progress: "progress 3500ms linear",
+      },
     },
   },
   plugins: [],

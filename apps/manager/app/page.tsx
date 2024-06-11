@@ -31,7 +31,7 @@ export default function Home() {
     data: activeBingo,
     isLoading: isLoadingActiveBingo,
     isPending,
-  } = useQuery<{ id: number; expiredAt: string }>({
+  } = useQuery<{ id: number; dimensions: number; expiredAt: string }>({
     queryKey: ["getActiveBingo"],
     queryFn: getActiveBingo(streamerName ?? "Inoxville"),
   });

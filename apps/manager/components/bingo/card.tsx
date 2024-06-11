@@ -16,7 +16,7 @@ export function BingoCard({
   streamerItems,
   withWrapper = false,
 }: {
-  activeBingo: { id: number; expiredAt: string };
+  activeBingo: { id: number; dimensions: number; expiredAt: string };
   streamerItems: StreamerItemsFromApi[];
   withWrapper?: boolean;
 }) {
@@ -61,7 +61,11 @@ export function BingoCard({
         return;
       }
 
-      const todaysBingo = createBingo(5, 5, streamerItems as []);
+      const todaysBingo = createBingo(
+        activeBingo.dimensions,
+        activeBingo.dimensions,
+        streamerItems as []
+      );
       setBingoCookie(JSON.stringify(todaysBingo), activeBingo.expiredAt);
       setBingo(todaysBingo);
     }
