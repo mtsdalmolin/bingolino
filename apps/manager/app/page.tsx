@@ -41,7 +41,9 @@ export default function Home() {
       <h1 className={`${montserrat.className} text-5xl`}>Bingolino</h1>
       {!isPending && !activeBingo ? (
         <NoActiveBingo />
-      ) : streamerItems && streamerItems.length < 25 ? (
+      ) : streamerItems &&
+        activeBingo?.dimensions &&
+        streamerItems.length < activeBingo.dimensions ** 2 ? (
         <NotEnoughItems />
       ) : isLoadingStreamerItems || isLoadingActiveBingo ? (
         <LoadingBingo />

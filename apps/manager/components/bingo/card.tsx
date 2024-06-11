@@ -26,7 +26,11 @@ export function BingoCard({
 
   const Wrapper = ({ children }: { children: ReactNode }) =>
     withWrapper ? (
-      <div className="grid grid-rows-5 grid-flow-col gap-2">{children}</div>
+      <div
+        className={`grid grid-rows-${activeBingo.dimensions} grid-flow-col gap-2`}
+      >
+        {children}
+      </div>
     ) : (
       <>{children}</>
     );
