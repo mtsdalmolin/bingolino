@@ -1,0 +1,1 @@
+ALTER TABLE "bingos" ADD COLUMN "dimensions" integer DEFAULT 4 NOT NULL;

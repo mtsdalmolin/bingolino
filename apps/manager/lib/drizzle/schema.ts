@@ -15,6 +15,7 @@ export const bingos = pgTable(
   {
     id: serial("id").primaryKey(),
     streamer: text("streamer").notNull(),
+    dimensions: integer("dimensions").notNull().default(4),
     expiredAt: timestamp("expiredAt", { mode: "date", precision: 3 })
       .default(sql`now() + '16 hour'::interval`)
       .notNull(),

@@ -11,6 +11,13 @@
     "local:dev": {
       "cache": false,
       "persistent": true
+    },
+    "drizzle:studio": {
+      "cache": false,
+      "persistent": true
+    },
+    "drizzle:up": {
+      "dependsOn": ["bingolino#drizzle:migrate", "bingolino#drizzle:generate"]
     }
   }
 }

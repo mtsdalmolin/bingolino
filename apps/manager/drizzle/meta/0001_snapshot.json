@@ -18,6 +18,13 @@
           "primaryKey": false,
           "notNull": true
         },
+        "dimensions": {
+          "name": "dimensions",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 4
+        },
         "expiredAt": {
           "name": "expiredAt",
           "type": "timestamp (3)",
@@ -184,6 +191,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "85c9fb50-4d44-40f2-9154-66289a16377d",
-  "prevId": "00000000-0000-0000-0000-000000000000"
+  "id": "fbce0fb6-46fd-435f-86f5-609c63bbdb92",
+  "prevId": "85c9fb50-4d44-40f2-9154-66289a16377d"
 }

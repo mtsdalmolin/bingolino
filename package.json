@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
+    "dev": "turbo local:dev",
     "lint": "turbo lint"
   },
   "devDependencies": {
@@ -13,5 +13,5 @@
     "turbo": "^1.12.4",
     "dotenv-cli": "latest"
   },
-  "packageManager": "pnpm@8.10.2"
+  "packageManager": "pnpm@9.1.4"
 }
