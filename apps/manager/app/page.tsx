@@ -39,7 +39,7 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-between p-24">
       <h1 className={`${montserrat.className} text-5xl`}>Bingolino</h1>
-      <section className="flex-1 flex flex-col justify-center gap-10">
+      <section className="flex-1 flex flex-col justify-center">
         {!isPending && !activeBingo ? (
           <NoActiveBingo />
         ) : streamerItems &&
