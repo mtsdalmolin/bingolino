@@ -39,24 +39,26 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-between p-24">
       <h1 className={`${montserrat.className} text-5xl`}>Bingolino</h1>
-      {!isPending && !activeBingo ? (
-        <NoActiveBingo />
-      ) : streamerItems &&
-        activeBingo?.dimensions &&
-        streamerItems.length < activeBingo.dimensions ** 2 ? (
-        <NotEnoughItems />
-      ) : isLoadingStreamerItems || isLoadingActiveBingo ? (
-        <LoadingBingo />
-      ) : (
-        streamerItems &&
-        activeBingo && (
-          <BingoCard
-            activeBingo={activeBingo}
-            streamerItems={streamerItems}
-            withWrapper
-          />
-        )
-      )}
+      <section className="flex-1 flex items-center">
+        {!isPending && !activeBingo ? (
+          <NoActiveBingo />
+        ) : streamerItems &&
+          activeBingo?.dimensions &&
+          streamerItems.length < activeBingo.dimensions ** 2 ? (
+          <NotEnoughItems />
+        ) : isLoadingStreamerItems || isLoadingActiveBingo ? (
+          <LoadingBingo />
+        ) : (
+          streamerItems &&
+          activeBingo && (
+            <BingoCard
+              activeBingo={activeBingo}
+              streamerItems={streamerItems}
+              withWrapper
+            />
+          )
+        )}
+      </section>
       <span className="absolute bottom-4">v{packageJson.version}</span>
     </main>
   );
