@@ -42,7 +42,9 @@ export default function TwitchExtension() {
             <div className="flex flex-col items-center p-32">
               <NoActiveBingo />
             </div>
-          ) : streamerItems && streamerItems.length < 25 ? (
+          ) : streamerItems &&
+            activeBingo?.dimensions &&
+            streamerItems.length < activeBingo.dimensions ** 2 ? (
             <div className="flex flex-col items-center p-32">
               <NotEnoughItems />
             </div>
